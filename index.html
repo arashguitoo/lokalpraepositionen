@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akkusativ oder Dativ? - Lokalpräpositionen Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .menu-screen, .exercise-screen, .certificate-screen {
+            display: none;
+        }
+
+        .menu-screen.active, .exercise-screen.active, .certificate-screen.active {
+            display: block;
+        }
+
+        .menu-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            margin: 15px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            width: calc(100% - 30px);
+        }
+
+        .menu-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .exercise-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .article-button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 25px;
+            margin: 8px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .article-button:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .article-button.correct {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .article-button.wrong {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .multiple-choice-button {
+            display: block;
+            width: 100%;
+            background: white;
+            border: 2px solid #764ba2;
+            color: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .multiple-choice-button:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .multiple-choice-button.correct {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .multiple-choice-button.wrong {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .text-input {
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            width: 150px;
+            text-align: center;
+        }
+
+        .submit-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            margin-left: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .explanation {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .nav-button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .nav-button:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .certificate {
+            text-align: center;
+            padding: 40px;
+            border: 5px solid #667eea;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .certificate h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .certificate-content {
+            font-size: 1.3em;
+            line-height: 2;
+            margin: 20px 0;
+        }
+
+        .name-input {
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .start-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-button:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .download-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 10px;
+        }
+
+        .download-button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .article-button, .multiple-choice-button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Name Input Screen -->
+        <div id="nameScreen" class="menu-screen active">
+            <h1>🎯 Akkusativ oder Dativ?</h1>
+            <div class="intro-text">
+                <p><strong>Willkommen zum Lokalpräpositionen-Training!</strong></p>
+                <p>Übe Akkusativ und Dativ mit drei verschiedenen Übungstypen.</p>
+                <p>Sammle Punkte und erhalte am Ende dein Zertifikat!</p>
+            </div>
+            <div style="text-align: center;">
+                <input type="text" id="nameInput" class="name-input" placeholder="Gib deinen Namen ein">
+                <br>
+                <button class="start-button" onclick="startTraining()">Training starten! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="mainMenu" class="menu-screen">
+            <h1>🎯 Akkusativ oder Dativ?</h1>
+            <div class="score-display">Gesamtpunkte: <span id="totalScore">0</span></div>
+            <button class="menu-button" onclick="startExercise(1)">
+                📝 Übung 1: Artikel auswählen (30 Aufgaben)
+            </button>
+            <button class="menu-button" onclick="startExercise(2)">
+                ✅ Übung 2: Multiple Choice (20 Aufgaben)
+            </button>
+            <button class="menu-button" onclick="startExercise(3)">
+                ✏️ Übung 3: Lückentext (20 Aufgaben)
+            </button>
+            <button class="menu-button" onclick="showCertificate()">
+                🏆 Zertifikat anzeigen
+            </button>
+        </div>
+
+        <!-- Exercise 1: Article Selection -->
+        <div id="exercise1" class="exercise-screen">
+            <h2>Übung 1: Wähle den richtigen Artikel</h2>
+            <div class="score-display">Punkte: <span id="score1">0</span> / 60</div>
+            <div class="progress-bar">
+                <div id="progress1" class="progress-fill" style="width: 0%">0/30</div>
+            </div>
+            <div id="exercise1Content" class="exercise-card"></div>
+            <div class="navigation-buttons">
+                <button class="nav-button" onclick="restartExercise(1)">🔄 Neustart</button>
+                <button class="nav-button" onclick="showMenu()">🏠 Hauptmenü</button>
+            </div>
+        </div>
+
+        <!-- Exercise 2: Multiple Choice -->
+        <div id="exercise2" class="exercise-screen">
+            <h2>Übung 2: Multiple Choice</h2>
+            <div class="score-display">Punkte: <span id="score2">0</span> / 60</div>
+            <div class="progress-bar">
+                <div id="progress2" class="progress-fill" style="width: 0%">0/20</div>
+            </div>
+            <div id="exercise2Content" class="exercise-card"></div>
+            <div class="navigation-buttons">
+                <button class="nav-button" onclick="restartExercise(2)">🔄 Neustart</button>
+                <button class="nav-button" onclick="showMenu()">🏠 Hauptmenü</button>
+            </div>
+        </div>
+
+        <!-- Exercise 3: Fill in the blanks -->
+        <div id="exercise3" class="exercise-screen">
+            <h2>Übung 3: Lückentext</h2>
+            <div class="score-display">Punkte: <span id="score3">0</span> / 40</div>
+            <div class="progress-bar">
+                <div id="progress3" class="progress-fill" style="width: 0%">0/20</div>
+            </div>
+            <div id="exercise3Content" class="exercise-card"></div>
+            <div class="navigation-buttons">
+                <button class="nav-button" onclick="restartExercise(3)">🔄 Neustart</button>
+                <button class="nav-button" onclick="showMenu()">🏠 Hauptmenü</button>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificateScreen" class="certificate-screen">
+            <div class="certificate">
+                <h2>🏆 ZERTIFIKAT 🏆</h2>
+                <div class="certificate-content">
+                    <p><strong id="certName"></strong></p>
+                    <p>hat erfolgreich das Training</p>
+                    <p><strong>"Akkusativ oder Dativ mit Lokalpräpositionen"</strong></p>
+                    <p>absolviert</p>
+                    <br>
+                    <p><strong>Erreichte Punktzahl:</strong></p>
+                    <p style="font-size: 2em; color: #667eea;"><span id="certScore">0</span> / 160 Punkte</p>
+                    <br>
+                    <p><small>Datum: <span id="certDate"></span></small></p>
+                </div>
+                <button class="download-button" onclick="downloadCertificate()">📥 Als Bild speichern</button>
+                <button class="nav-button" onclick="showMenu()" style="margin-top: 20px;">🏠 Hauptmenü</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let userName = '';
+        let totalScore = 0;
+        let currentExercise = 0;
+        let currentQuestion = 0;
+        let exerciseScores = [0, 0, 0];
+        let attempts = 0;
+
+        // Exercise 1 Data: Article Selection (30 questions - mostly definite articles)
+        const exercise1Data = [
+            {sentence: "Das Buch liegt auf ___ Tisch.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - auf + Dativ): Das Buch liegt auf dem Tisch."},
+            {sentence: "Ich stelle die Vase auf ___ Tisch.", correct: "den", type: "definite", explanation: "Akkusativ (Wohin? - stellen + auf + Akkusativ): Ich stelle die Vase auf den Tisch."},
+            {sentence: "Die Katze schläft in ___ Bett.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - in + Dativ): Die Katze schläft in dem Bett."},
+            {sentence: "Er hängt das Bild an ___ Wand.", correct: "die", type: "definite", explanation: "Akkusativ (Wohin? - hängen + an + Akkusativ): Er hängt das Bild an die Wand."},
+            {sentence: "Das Bild hängt an ___ Wand.", correct: "der", type: "definite", explanation: "Dativ (Wo? - an + Dativ): Das Bild hängt an der Wand."},
+            {sentence: "Der Stuhl steht neben ___ Fenster.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - neben + Dativ): Der Stuhl steht neben dem Fenster."},
+            {sentence: "Sie legt das Buch in ___ Regal.", correct: "das", type: "definite", explanation: "Akkusativ (Wohin? - legen + in + Akkusativ): Sie legt das Buch in das Regal."},
+            {sentence: "Der Teppich liegt vor ___ Sofa.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - vor + Dativ): Der Teppich liegt vor dem Sofa."},
+            {sentence: "Ich stelle den Schrank zwischen ___ Fenster.", correct: "die", type: "definite", explanation: "Akkusativ (Wohin? - stellen + zwischen + Akkusativ): zwischen die Fenster (Plural)."},
+            {sentence: "Die Lampe hängt über ___ Tisch.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - über + Dativ): Die Lampe hängt über dem Tisch."},
+            {sentence: "Er stellt das Auto vor ___ Haus.", correct: "das", type: "definite", explanation: "Akkusativ (Wohin? - stellen + vor + Akkusativ): vor das Haus."},
+            {sentence: "Der Spiegel hängt hinter ___ Tür.", correct: "der", type: "definite", explanation: "Dativ (Wo? - hinter + Dativ): hinter der Tür."},
+            {sentence: "Sie hängt den Mantel an ___ Haken.", correct: "den", type: "definite", explanation: "Akkusativ (Wohin? - hängen + an + Akkusativ): an den Haken."},
+            {sentence: "Das Kind sitzt unter ___ Tisch.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - unter + Dativ): unter dem Tisch."},
+            {sentence: "Ich lege die Zeitung auf ___ Stuhl.", correct: "den", type: "definite", explanation: "Akkusativ (Wohin? - legen + auf + Akkusativ): auf den Stuhl."},
+            {sentence: "Die Bank steht im Park.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - in + Dativ): in dem Park (im = in dem)."},
+            {sentence: "Er geht in ___ Park.", correct: "den", type: "definite", explanation: "Akkusativ (Wohin? - gehen + in + Akkusativ): in den Park."},
+            {sentence: "Das Poster hängt über ___ Bett.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - über + Dativ): über dem Bett."},
+            {sentence: "Sie steckt den Brief in ___ Tasche.", correct: "die", type: "definite", explanation: "Akkusativ (Wohin? - stecken + in + Akkusativ): in die Tasche."},
+            {sentence: "Der Schlüssel steckt in ___ Tür.", correct: "der", type: "definite", explanation: "Dativ (Wo? - in + Dativ): in der Tür."},
+            {sentence: "Ich stelle ___ Blume ins Fenster.", correct: "die", type: "definite", explanation: "Akkusativ (Wohin? - stellen + in + Akkusativ): die Blume (ins = in das)."},
+            {sentence: "Die Blume steht in ___ Fenster.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - in + Dativ): in dem Fenster."},
+            {sentence: "Er legt ___ Handy auf ___ Tisch.", correct: "das", type: "definite", explanation: "Akkusativ: das Handy (Objekt im Akkusativ)."},
+            {sentence: "Das Handy liegt auf ___ Tisch.", correct: "dem", type: "definite", explanation: "Dativ (Wo? - auf + Dativ): auf dem Tisch."},
+            {sentence: "Sie hängt ___ Jacke an ___ Garderobe.", correct: "die", type: "definite", explanation: "Akkusativ: die Jacke (Objekt im Akkusativ)."},
+            // Indefinite articles (5 questions)
+            {sentence: "Ich stelle ___ Stuhl an die Wand.", correct: "einen", type: "indefinite", explanation: "Akkusativ (Wohin? - stellen + an + Akkusativ): einen Stuhl."},
+            {sentence: "Er legt ___ Buch auf den Tisch.", correct: "ein", type: "indefinite", explanation: "Akkusativ (Wohin? - legen + auf + Akkusativ): ein Buch."},
+            {sentence: "Sie hängt ___ Lampe über den Esstisch.", correct: "eine", type: "indefinite", explanation: "Akkusativ (Wohin? - hängen + über + Akkusativ): eine Lampe."},
+            {sentence: "___ Stuhl steht neben einem Tisch.", correct: "ein", type: "indefinite", explanation: "Nominativ: Ein Stuhl (Subjekt)."},
+            {sentence: "Das Bild liegt in ___ Schublade.", correct: "einer", type: "indefinite", explanation: "Dativ (Wo? - in + Dativ): in einer Schublade."}
+        ];
+
+        // Exercise 2 Data: Multiple Choice (20 questions)
+        const exercise2Data = [
+            {
+                question: "Die Vase steht...",
+                options: [
+                    {text: "an der Decke", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"},
+                    {text: "auf den Boden", correct: false, explanation: "Falsch: 'auf' mit 'stehen' braucht Dativ → auf dem Boden"},
+                    {text: "auf dem Tisch", correct: true, explanation: "Richtig! Wo? → Dativ: auf dem Tisch"},
+                    {text: "neben den Fernseher", correct: false, explanation: "Falsch: 'neben' mit 'stehen' braucht Dativ → neben dem Fernseher"}
+                ]
+            },
+            {
+                question: "Ich lege das Buch...",
+                options: [
+                    {text: "in der Tasche", correct: false, explanation: "Falsch: 'legen' (Wohin?) braucht Akkusativ → in die Tasche"},
+                    {text: "auf den Tisch", correct: true, explanation: "Richtig! Wohin? → Akkusativ: auf den Tisch"},
+                    {text: "neben dem Stuhl", correct: false, explanation: "Falsch: 'legen' (Wohin?) braucht Akkusativ → neben den Stuhl"},
+                    {text: "unter das Dach", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch für ein Buch!"}
+                ]
+            },
+            {
+                question: "Der Stuhl steht...",
+                options: [
+                    {text: "in die Ecke", correct: false, explanation: "Falsch: 'stehen' (Wo?) braucht Dativ → in der Ecke"},
+                    {text: "vor dem Fenster", correct: true, explanation: "Richtig! Wo? → Dativ: vor dem Fenster"},
+                    {text: "zwischen den Tischen", correct: false, explanation: "Falsch: mit Singular 'stehen' braucht Dativ → zwischen den Tischen ist Plural-Dativ (richtig), aber der Kontext passt nicht perfekt"},
+                    {text: "auf der Straße", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch im Kontext!"}
+                ]
+            },
+            {
+                question: "Sie hängt das Bild...",
+                options: [
+                    {text: "an die Wand", correct: true, explanation: "Richtig! Wohin? → Akkusativ: an die Wand"},
+                    {text: "an der Wand", correct: false, explanation: "Falsch: 'hängen' (Wohin?) braucht Akkusativ → an die Wand"},
+                    {text: "unter den Tisch", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"},
+                    {text: "in dem Fenster", correct: false, explanation: "Falsch: 'hängen' (Wohin?) braucht Akkusativ → in das Fenster"}
+                ]
+            },
+            {
+                question: "Die Katze liegt...",
+                options: [
+                    {text: "auf die Couch", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → auf der Couch"},
+                    {text: "auf der Couch", correct: true, explanation: "Richtig! Wo? → Dativ: auf der Couch"},
+                    {text: "in den Garten", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → in dem Garten"},
+                    {text: "neben das Bett", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → neben dem Bett"}
+                ]
+            },
+            {
+                question: "Ich stelle den Schrank...",
+                options: [
+                    {text: "in der Küche", correct: false, explanation: "Falsch: 'stellen' (Wohin?) braucht Akkusativ → in die Küche"},
+                    {text: "neben das Fenster", correct: true, explanation: "Richtig! Wohin? → Akkusativ: neben das Fenster"},
+                    {text: "auf dem Balkon", correct: false, explanation: "Falsch: 'stellen' (Wohin?) braucht Akkusativ → auf den Balkon"},
+                    {text: "an den Himmel", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Der Teppich liegt...",
+                options: [
+                    {text: "vor das Sofa", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → vor dem Sofa"},
+                    {text: "vor dem Sofa", correct: true, explanation: "Richtig! Wo? → Dativ: vor dem Sofa"},
+                    {text: "an die Wand", correct: false, explanation: "Grammatisch richtig (Akkusativ bei hängen), aber Teppiche liegen!"},
+                    {text: "in den Schrank", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → in dem Schrank"}
+                ]
+            },
+            {
+                question: "Er steckt den Schlüssel...",
+                options: [
+                    {text: "in die Tasche", correct: true, explanation: "Richtig! Wohin? → Akkusativ: in die Tasche"},
+                    {text: "in der Tasche", correct: false, explanation: "Falsch: 'stecken' (Wohin?) braucht Akkusativ → in die Tasche"},
+                    {text: "auf den Tisch", correct: false, explanation: "Unlogisch: Schlüssel werden nicht auf Tische gesteckt"},
+                    {text: "neben dem Auto", correct: false, explanation: "Falsch: 'stecken' braucht 'in', nicht 'neben'"}
+                ]
+            },
+            {
+                question: "Die Lampe hängt...",
+                options: [
+                    {text: "über den Tisch", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → über dem Tisch"},
+                    {text: "über dem Tisch", correct: true, explanation: "Richtig! Wo? → Dativ: über dem Tisch"},
+                    {text: "unter die Decke", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → unter der Decke"},
+                    {text: "in das Regal", correct: false, explanation: "Unlogisch: Lampen hängen nicht in Regalen"}
+                ]
+            },
+            {
+                question: "Sie legt die Zeitung...",
+                options: [
+                    {text: "auf dem Tisch", correct: false, explanation: "Falsch: 'legen' (Wohin?) braucht Akkusativ → auf den Tisch"},
+                    {text: "auf den Tisch", correct: true, explanation: "Richtig! Wohin? → Akkusativ: auf den Tisch"},
+                    {text: "an der Wand", correct: false, explanation: "Unlogisch: Zeitungen werden nicht an Wände gelegt"},
+                    {text: "über das Dach", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Das Auto steht...",
+                options: [
+                    {text: "vor das Haus", correct: false, explanation: "Falsch: 'stehen' (Wo?) braucht Dativ → vor dem Haus"},
+                    {text: "in die Garage", correct: false, explanation: "Falsch: 'stehen' (Wo?) braucht Dativ → in der Garage"},
+                    {text: "vor dem Haus", correct: true, explanation: "Richtig! Wo? → Dativ: vor dem Haus"},
+                    {text: "auf der Wolke", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Ich hänge den Kalender...",
+                options: [
+                    {text: "an die Wand", correct: true, explanation: "Richtig! Wohin? → Akkusativ: an die Wand"},
+                    {text: "an der Wand", correct: false, explanation: "Falsch: 'hängen' (Wohin?) braucht Akkusativ → an die Wand"},
+                    {text: "in dem Zimmer", correct: false, explanation: "Zu unspezifisch, aber: 'hängen' braucht Akkusativ → in das Zimmer"},
+                    {text: "unter den Boden", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Der Spiegel hängt...",
+                options: [
+                    {text: "im Badezimmer", correct: true, explanation: "Richtig! Wo? → Dativ: in dem Badezimmer (im = in dem)"},
+                    {text: "ins Badezimmer", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → im Badezimmer"},
+                    {text: "neben den Schrank", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → neben dem Schrank"},
+                    {text: "auf dem Gras", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Sie stellt die Pflanze...",
+                options: [
+                    {text: "ans Fenster", correct: true, explanation: "Richtig! Wohin? → Akkusativ: an das Fenster (ans = an das)"},
+                    {text: "am Fenster", correct: false, explanation: "Falsch: 'stellen' (Wohin?) braucht Akkusativ → ans Fenster"},
+                    {text: "in der Ecke", correct: false, explanation: "Falsch: 'stellen' (Wohin?) braucht Akkusativ → in die Ecke"},
+                    {text: "unter die Erde", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber man pflanzt sie dann!"}
+                ]
+            },
+            {
+                question: "Das Handy liegt...",
+                options: [
+                    {text: "auf den Schreibtisch", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → auf dem Schreibtisch"},
+                    {text: "auf dem Schreibtisch", correct: true, explanation: "Richtig! Wo? → Dativ: auf dem Schreibtisch"},
+                    {text: "in die Schublade", correct: false, explanation: "Falsch: 'liegen' (Wo?) braucht Dativ → in der Schublade"},
+                    {text: "an der Decke", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Er legt den Laptop...",
+                options: [
+                    {text: "in die Tasche", correct: true, explanation: "Richtig! Wohin? → Akkusativ: in die Tasche"},
+                    {text: "in der Tasche", correct: false, explanation: "Falsch: 'legen' (Wohin?) braucht Akkusativ → in die Tasche"},
+                    {text: "auf dem Bett", correct: false, explanation: "Falsch: 'legen' (Wohin?) braucht Akkusativ → auf das Bett"},
+                    {text: "unter das Meer", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Die Uhr hängt...",
+                options: [
+                    {text: "an die Wand", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → an der Wand"},
+                    {text: "an der Wand", correct: true, explanation: "Richtig! Wo? → Dativ: an der Wand"},
+                    {text: "in den Raum", correct: false, explanation: "Falsch: 'hängen' (Wo?) braucht Dativ → in dem Raum"},
+                    {text: "auf der Straße", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Ich stelle das Glas...",
+                options: [
+                    {text: "auf den Tisch", correct: true, explanation: "Richtig! Wohin? → Akkusativ: auf den Tisch"},
+                    {text: "auf dem Tisch", correct: false, explanation: "Falsch: 'stellen' (Wohin?) braucht Akkusativ → auf den Tisch"},
+                    {text: "in der Küche", correct: false, explanation: "Zu unspezifisch, aber: 'stellen' braucht Akkusativ → in die Küche"},
+                    {text: "unter den Stuhl", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Die Schuhe stehen...",
+                options: [
+                    {text: "vor die Tür", correct: false, explanation: "Falsch: 'stehen' (Wo?) braucht Dativ → vor der Tür"},
+                    {text: "vor der Tür", correct: true, explanation: "Richtig! Wo? → Dativ: vor der Tür"},
+                    {text: "in den Flur", correct: false, explanation: "Falsch: 'stehen' (Wo?) braucht Dativ → in dem Flur"},
+                    {text: "auf dem Baum", correct: false, explanation: "Grammatisch richtig (Dativ), aber unlogisch!"}
+                ]
+            },
+            {
+                question: "Sie hängt die Tasche...",
+                options: [
+                    {text: "an den Haken", correct: true, explanation: "Richtig! Wohin? → Akkusativ: an den Haken"},
+                    {text: "an dem Haken", correct: false, explanation: "Falsch: 'hängen' (Wohin?) braucht Akkusativ → an den Haken"},
+                    {text: "in der Küche", correct: false, explanation: "Zu unspezifisch, aber: 'hängen' braucht Akkusativ → in die Küche"},
+                    {text: "unter den Tisch", correct: false, explanation: "Grammatisch richtig (Akkusativ), aber unlogisch!"}
+                ]
+            }
+        ];
+
+        // Exercise 3 Data: Fill in the blanks (20 questions)
+        const exercise3Data = [
+            {sentence: "Das Buch liegt auf ___ Tisch.", correct: "dem", explanation: "Dativ (Wo?): auf dem Tisch"},
+            {sentence: "Ich lege das Buch auf ___ Tisch.", correct: "den", explanation: "Akkusativ (Wohin?): auf den Tisch"},
+            {sentence: "Die Katze schläft in ___ Bett.", correct: "dem", explanation: "Dativ (Wo?): in dem Bett"},
+            {sentence: "Er stellt den Stuhl neben ___ Fenster.", correct: "das", explanation: "Akkusativ (Wohin?): neben das Fenster"},
+            {sentence: "Das Bild hängt an ___ Wand.", correct: "der", explanation: "Dativ (Wo?): an der Wand"},
+            {sentence: "Sie hängt das Bild an ___ Wand.", correct: "die", explanation: "Akkusativ (Wohin?): an die Wand"},
+            {sentence: "Der Teppich liegt vor ___ Sofa.", correct: "dem", explanation: "Dativ (Wo?): vor dem Sofa"},
+            {sentence: "Ich stelle die Vase auf ___ Tisch.", correct: "den", explanation: "Akkusativ (Wohin?): auf den Tisch"},
+            {sentence: "Die Lampe hängt über ___ Esstisch.", correct: "dem", explanation: "Dativ (Wo?): über dem Esstisch"},
+            {sentence: "Er legt die Zeitung auf ___ Stuhl.", correct: "den", explanation: "Akkusativ (Wohin?): auf den Stuhl"},
+            {sentence: "Das Auto steht vor ___ Haus.", correct: "dem", explanation: "Dativ (Wo?): vor dem Haus"},
+            {sentence: "Sie stellt das Auto in ___ Garage.", correct: "die", explanation: "Akkusativ (Wohin?): in die Garage"},
+            {sentence: "Der Spiegel hängt in ___ Badezimmer.", correct: "dem", explanation: "Dativ (Wo?): in dem Badezimmer (im)"},
+            {sentence: "Ich hänge den Kalender an ___ Wand.", correct: "die", explanation: "Akkusativ (Wohin?): an die Wand"},
+            {sentence: "Das Handy liegt auf ___ Schreibtisch.", correct: "dem", explanation: "Dativ (Wo?): auf dem Schreibtisch"},
+            {sentence: "Er steckt den Schlüssel in ___ Tasche.", correct: "die", explanation: "Akkusativ (Wohin?): in die Tasche"},
+            {sentence: "Der Schlüssel steckt in ___ Tür.", correct: "der", explanation: "Dativ (Wo?): in der Tür"},
+            {sentence: "Sie legt den Laptop in ___ Rucksack.", correct: "den", explanation: "Akkusativ (Wohin?): in den Rucksack"},
+            {sentence: "Die Pflanze steht an ___ Fenster.", correct: "dem", explanation: "Dativ (Wo?): an dem Fenster (am)"},
+            {sentence: "Ich stelle die Pflanze an ___ Fenster.", correct: "das", explanation: "Akkusativ (Wohin?): an das Fenster (ans)"}
+        ];
+
+        function startTraining() {
+            userName = document.getElementById('nameInput').value.trim();
+            if (userName === '') {
+                alert('Bitte gib deinen Namen ein!');
+                return;
+            }
+            document.getElementById('nameScreen').classList.remove('active');
+            document.getElementById('mainMenu').classList.add('active');
+        }
+
+        function showMenu() {
+            document.querySelectorAll('.exercise-screen, .certificate-screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('mainMenu').classList.add('active');
+            updateTotalScore();
+        }
+
+        function updateTotalScore() {
+            totalScore = exerciseScores[0] + exerciseScores[1] + exerciseScores[2];
+            document.getElementById('totalScore').textContent = totalScore;
+        }
+
+        function startExercise(exerciseNum) {
+            currentExercise = exerciseNum;
+            currentQuestion = 0;
+            attempts = 0;
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('exercise' + exerciseNum).classList.add('active');
+            
+            if (exerciseNum === 1) {
+                showQuestion1();
+            } else if (exerciseNum === 2) {
+                showQuestion2();
+            } else if (exerciseNum === 3) {
+                showQuestion3();
+            }
+        }
+
+        function restartExercise(exerciseNum) {
+            exerciseScores[exerciseNum - 1] = 0;
+            document.getElementById('score' + exerciseNum).textContent = '0';
+            startExercise(exerciseNum);
+        }
+
+        // Exercise 1: Article Selection
+        function showQuestion1() {
+            if (currentQuestion >= exercise1Data.length) {
+                showExerciseComplete(1);
+                return;
+            }
+
+            const data = exercise1Data[currentQuestion];
+            const content = document.getElementById('exercise1Content');
+            attempts = 0;
+
+            const articles = data.type === 'definite' 
+                ? ['der', 'die', 'das', 'den', 'dem']
+                : ['ein', 'eine', 'einen', 'einem'];
+
+            content.innerHTML = `
+                <div class="question">${data.sentence}</div>
+                <div style="text-align: center;">
+                    ${articles.map(art => `<button class="article-button" onclick="checkAnswer1('${art}')">${art}</button>`).join('')}
+                </div>
+                <div class="explanation" id="explanation1"></div>
+            `;
+
+            updateProgress(1);
+        }
+
+        function checkAnswer1(answer) {
+            attempts++;
+            const data = exercise1Data[currentQuestion];
+            const buttons = document.querySelectorAll('#exercise1Content .article-button');
+            const explanation = document.getElementById('explanation1');
+
+            if (answer === data.correct) {
+                buttons.forEach(btn => {
+                    if (btn.textContent === answer) {
+                        btn.classList.add('correct');
+                    }
+                    btn.disabled = true;
+                });
+
+                const points = attempts === 1 ? 2 : 1;
+                exerciseScores[0] += points;
+                document.getElementById('score1').textContent = exerciseScores[0];
+
+                explanation.innerHTML = `<strong>✅ Richtig! (+${points} Punkt${points > 1 ? 'e' : ''})</strong><br>${data.explanation}`;
+                explanation.classList.add('show');
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    showQuestion1();
+                }, 2500);
+            } else {
+                buttons.forEach(btn => {
+                    if (btn.textContent === answer) {
+                        btn.classList.add('wrong');
+                        setTimeout(() => btn.classList.remove('wrong'), 500);
+                    }
+                });
+                explanation.innerHTML = `<strong>❌ Nicht richtig. Versuche es nochmal!</strong>`;
+                explanation.classList.add('show');
+            }
+        }
+
+        // Exercise 2: Multiple Choice
+        function showQuestion2() {
+            if (currentQuestion >= exercise2Data.length) {
+                showExerciseComplete(2);
+                return;
+            }
+
+            const data = exercise2Data[currentQuestion];
+            const content = document.getElementById('exercise2Content');
+            attempts = 0;
+
+            content.innerHTML = `
+                <div class="question">${data.question}</div>
+                ${data.options.map((opt, idx) => `
+                    <button class="multiple-choice-button" onclick="checkAnswer2(${idx})">
+                        ${idx + 1}. ${opt.text}
+                    </button>
+                `).join('')}
+                <div class="explanation" id="explanation2"></div>
+            `;
+
+            updateProgress(2);
+        }
+
+        function checkAnswer2(optionIndex) {
+            attempts++;
+            const data = exercise2Data[currentQuestion];
+            const option = data.options[optionIndex];
+            const buttons = document.querySelectorAll('#exercise2Content .multiple-choice-button');
+            const explanation = document.getElementById('explanation2');
+
+            buttons[optionIndex].disabled = true;
+
+            if (option.correct) {
+                buttons[optionIndex].classList.add('correct');
+                buttons.forEach(btn => btn.disabled = true);
+
+                const points = 3;
+                exerciseScores[1] += points;
+                document.getElementById('score2').textContent = exerciseScores[1];
+
+                explanation.innerHTML = `<strong>✅ Richtig! (+${points} Punkte)</strong><br>${option.explanation}`;
+                explanation.classList.add('show');
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    showQuestion2();
+                }, 3000);
+            } else {
+                buttons[optionIndex].classList.add('wrong');
+                explanation.innerHTML = `<strong>❌ Nicht richtig.</strong><br>${option.explanation}`;
+                explanation.classList.add('show');
+            }
+        }
+
+        // Exercise 3: Fill in the blanks
+        function showQuestion3() {
+            if (currentQuestion >= exercise3Data.length) {
+                showExerciseComplete(3);
+                return;
+            }
+
+            const data = exercise3Data[currentQuestion];
+            const content = document.getElementById('exercise3Content');
+            attempts = 0;
+
+            content.innerHTML = `
+                <div class="question">${data.sentence}</div>
+                <div style="text-align: center;">
+                    <input type="text" class="text-input" id="answer3" placeholder="Artikel">
+                    <button class="submit-button" onclick="checkAnswer3()">Prüfen</button>
+                </div>
+                <div class="explanation" id="explanation3"></div>
+            `;
+
+            updateProgress(3);
+            
+            document.getElementById('answer3').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer3();
+                }
+            });
+        }
+
+        function checkAnswer3() {
+            attempts++;
+            const data = exercise3Data[currentQuestion];
+            const input = document.getElementById('answer3');
+            const answer = input.value.trim().toLowerCase();
+            const explanation = document.getElementById('explanation3');
+
+            if (answer === data.correct.toLowerCase()) {
+                input.style.borderColor = '#28a745';
+                input.disabled = true;
+                document.querySelector('#exercise3Content .submit-button').disabled = true;
+
+                const points = attempts === 1 ? 2 : 1;
+                exerciseScores[2] += points;
+                document.getElementById('score3').textContent = exerciseScores[2];
+
+                explanation.innerHTML = `<strong>✅ Richtig! (+${points} Punkt${points > 1 ? 'e' : ''})</strong><br>${data.explanation}`;
+                explanation.classList.add('show');
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    showQuestion3();
+                }, 2500);
+            } else {
+                input.style.borderColor = '#dc3545';
+                input.classList.add('wrong');
+                setTimeout(() => {
+                    input.classList.remove('wrong');
+                    input.style.borderColor = '#667eea';
+                }, 500);
+
+                explanation.innerHTML = `<strong>❌ Nicht richtig. Versuche es nochmal!</strong>`;
+                explanation.classList.add('show');
+            }
+        }
+
+        function updateProgress(exerciseNum) {
+            const maxQuestions = exerciseNum === 1 ? 30 : 20;
+            const progress = ((currentQuestion + 1) / maxQuestions) * 100;
+            document.getElementById('progress' + exerciseNum).style.width = progress + '%';
+            document.getElementById('progress' + exerciseNum).textContent = (currentQuestion + 1) + '/' + maxQuestions;
+        }
+
+        function showExerciseComplete(exerciseNum) {
+            const content = document.getElementById('exercise' + exerciseNum + 'Content');
+            const score = exerciseScores[exerciseNum - 1];
+            const maxScore = exerciseNum === 2 ? 60 : (exerciseNum === 1 ? 60 : 40);
+            
+            content.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #28a745; font-size: 2.5em;">🎉 Übung abgeschlossen!</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0;">
+                        Du hast <strong style="color: #667eea;">${score} von ${maxScore} Punkten</strong> erreicht!
+                    </p>
+                    <p style="font-size: 1.2em; color: #666;">
+                        ${score >= maxScore * 0.8 ? 'Ausgezeichnet! 🌟' : 
+                          score >= maxScore * 0.6 ? 'Gut gemacht! 👍' : 
+                          'Weiter üben! 💪'}
+                    </p>
+                </div>
+            `;
+            
+            updateTotalScore();
+        }
+
+        function showCertificate() {
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('certificateScreen').classList.add('active');
+            document.getElementById('certName').textContent = userName;
+            updateTotalScore();
+            document.getElementById('certScore').textContent = totalScore;
+            
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('de-DE', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('certDate').textContent = dateStr;
+        }
+
+        function downloadCertificate() {
+            // Simple download solution using canvas
+            const cert = document.querySelector('.certificate');
+            
+            // Using html2canvas library would be better, but for a standalone solution:
+            alert('Tipp: Mache einen Screenshot von diesem Zertifikat (z.B. mit Druck-Taste oder Snipping Tool) und speichere es als Bild!');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('nameInput').focus();
+        });
+    </script>
+</body>
+</html>
